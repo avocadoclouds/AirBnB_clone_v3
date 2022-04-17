@@ -20,7 +20,7 @@ port = os.getenv('HBNB_API_PORT', 5000)
 @app.teardown_appcontext
 def teardown_db(exception):
     """calls storage.close() that
-    on current sqlalchemy sessions
+    on current sqlalchemy sessions.
     """
     storage.close()
 
