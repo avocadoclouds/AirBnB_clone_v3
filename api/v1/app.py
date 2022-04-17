@@ -29,7 +29,8 @@ def teardown_db(exception):
  def page_not_found(error):
      """Route to handle 404 status"""
      response = {"error": "Not found"}
-     return (jsonify(response), 404)
+     resp = make_response(jsonify(response), 404)
+     return resp
 
 
 if __name__ == "__main__":
