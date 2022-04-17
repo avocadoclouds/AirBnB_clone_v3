@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-flask route that returns a status response (json).
+flask route that returns a status response(json).
 """
 
 from api.v1.views import app_views
