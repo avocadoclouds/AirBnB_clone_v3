@@ -19,7 +19,7 @@ def status():
 
 
 @app_views.route('/stats', methods=['GET'])
-def stat():
+def stats():
     """ function  to return count of objects """
     if request.method == 'GET':
         result = {
