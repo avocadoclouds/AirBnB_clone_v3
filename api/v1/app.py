@@ -24,6 +24,7 @@ def teardown_db(exception):
     """
     storage.close()
 
+
 if __name__ == "__main__":
     """Run Flask"""
     app.run(host=host, port=port)
