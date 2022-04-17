@@ -22,13 +22,15 @@ def status():
 def stats():
     """ function  to return count of objects """
     if request.method == 'GET':
+        response = {}
         result = {
-            "amenities": storage.count(Amenity),
-            "cities": storage.count(City),
-            "places": storage.count(Place),
-            "reviews": storage.count(Review),
-            "states": storage.count(State),
-            "users": storage.count(User)
+            "Amenity": "amenities",
+            "City": "cities",
+            "Place": "places",
+            "Review": "reviews",
+            "State": "states",
+            "User": "users"
         }
-
-        return jsonify(result)
+         for key, value in result.items():
+             response[value] = storage.count(key)
+        return jsonify(response)
