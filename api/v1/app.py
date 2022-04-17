@@ -25,6 +25,13 @@ def teardown_db(exception):
     storage.close()
 
 
+@app.errorhandler(404)
+ def page_not_fount(exception):
+     """Route to handle 404 status"""
+     response= {"error": "Not found"}
+     return jsonify(response), 404
+
+
 if __name__ == "__main__":
     """Run Flask"""
     app.run(host=host, port=port)
