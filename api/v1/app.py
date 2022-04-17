@@ -2,7 +2,7 @@
 """Flask App"""
 
 from api.v1.views import app_views
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, url_for
 from models import storage
 import os
 
@@ -26,7 +26,7 @@ def teardown_db(exception):
 
 
 @app.errorhandler(404)
- def page_not_fount(exception):
+ def page_not_found(error):
      """Route to handle 404 status"""
      response= {"error": "Not found"}
      return jsonify(response), 404
