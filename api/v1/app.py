@@ -28,7 +28,7 @@ def teardown_db(exception):
 @app.errorhandler(404)
  def page_not_found(exception):
      """Route to handle 404 status"""
-     response = make_response(jsonify({"error": "Not found"}), 404)
+     response = jsonify({"error": "Not found"}), 404
      return response
 
 
