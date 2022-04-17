@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Flask App"""
 
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
