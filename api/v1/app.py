@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """Flask App"""
 
+from api.v1.views import app_views
 from flask import Flask, render_template, jsonify
 from models import storage
-from api.v1.views import app_views
 import os
 
 # create a variable app, instance of Flask
