@@ -16,11 +16,11 @@ def retrieve_places(city_id):
     """returns all places for a particular city."""
     city = storage.get("City", city_id)
     if city is None:
-        abort(404)
+        abort(404, 'Not found')
     places = []
     for place in city.places:
         places.append(place.to_dict())
-    return(jsonify(places))
+    return jsonify(places)
 
 
 @app_views.route('/places/<place_id>', methods=['GET'])
@@ -28,8 +28,8 @@ def retrieve_place(place_id):
     """returns information about a particular place"""
     place = storage.get("Place", place_id)
     if place is None:
-        abort(404)
-    return(jsonify(place.to_dict()))
+        abort(404, 'Not found')
+    return jsonify(place.to_dict())
 
 
 @app_views.route('/places/<place_id>', methods=['DELETE'])
@@ -37,10 +37,10 @@ def delete_place(place_id):
     """deletes a place object"""
     place = storage.get("Place", place_id)
     if place is None:
-        abort(404)
+        abort(404, 'Not found')
     place.delete()
     storage.save()
-    return(jsonify({}))
+    return (jsonify({}))
 
 
 @app_views.route('cities/<city_id>/places', methods=['POST'])
@@ -48,7 +48,7 @@ def create_place(city_id):
     """creates a new place"""
     city = storage.get("City", city_id)
     if city is None:
-        abort(404)
+        abort(404, 'Not found')
     kwargs = request.get_json()
     if not kwargs:
         return make_response(jsonify({'error': 'Not a JSON'}), 404)
@@ -56,7 +56,7 @@ def create_place(city_id):
         return make_response(jsonify({'error': 'Missing user_id'}), 404)
     user = storage.get("User", kwargs['user_id'])
     if not user:
-        abort(404)
+        abort(404, 'Not found')
     if 'name' not in kwargs.keys():
         return make_response(jsonify({'error': 'Missing name'}), 404)
     kwargs['city_id'] = city_id
@@ -70,7 +70,7 @@ def update_place(place_id):
     """updates a place"""
     place = storage.get("Place", place_id)
     if place is None:
-        abort(404)
+        abort(404, 'Not found')
     kwargs = request.get_json()
     if not kwargs:
         return make_response(jsonify({'error': 'Not a JSON'}), 404)
