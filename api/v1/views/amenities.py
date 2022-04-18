@@ -3,10 +3,9 @@
 from api.v1.views import app_views
 from flask import abort, jsonify, request, make_response
 from models import storage
+from models.city import City
+from models.state import State
 from models.amenity import Amenity
-
-
-amenity_dict = amenity.to_dict()
 
 
 @app_views.route('/amenities', methods=['GET'])
@@ -14,7 +13,7 @@ def get_amenities():
     """Return all amenities"""
     amenities = []
     for amenity in storage.all("Amenity").values():
-        amenities.append(amenity_dict)
+        amenities.append(amenity.to_dict())
     return jsonify(amenities)
 
 
@@ -24,7 +23,7 @@ def get_amenity(amenity_id):
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
         abort(404)
-    return jsonify(amenity_dict)
+    return jsonify(amenity.to_dict())
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
@@ -47,7 +46,7 @@ def create_amenity():
         return make_response(jsonify({'error': 'Missing name'}), 400)
     amenity = Amenity(**request.get_json())
     amenity.save()
-    return make_response(jsonify(amenity_dict, 201))
+    return make_response(jsonify(amenity.to_dict(), 201))
 
 
 @app_views.route('/amenities/<amenity_id>', methods=['PUT'])
@@ -62,4 +61,4 @@ def put_amenity(amenity_id):
         if attr not in ['id', 'created_at', 'updated_at']:
             setattr(amenity, attr, value)
     amenity.save()
-    return jsonify(amenity_dict)
+    return jsonify(amenity.to_dict())
