@@ -16,6 +16,7 @@ def retrieve_states():
         states.append(state.to_dict())
     return jsonify(states)
 
+
 @app_views.route('/states', methods=['POST'])
 def create_state():
     """create new state"""
