@@ -6,6 +6,9 @@ that handles all default RESTFul API actions:
 from api.v1.views import app_views
 from flask import jsonify, make_response, request, abort
 from models import storage
+from models.review import Review
+from models.user import User
+from models.place import Place
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'])
@@ -17,7 +20,7 @@ def retrieve_reviews(place_id):
     reviews = []
     for review in place.reviews:
         reviews.append(review.to_dict())
-    return(jsonify(reviews))
+    return jsonify(reviews)
 
 @app_views.route('/reviews/<review_id>', methods=['GET'])
 def retrieve_review(review_id):
