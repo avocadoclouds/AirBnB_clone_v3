@@ -78,6 +78,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(type(new_dict), dict)
         self.assertIs(new_dict, storage._FileStorage__objects)
 
+
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_new(self):
         """test that new adds an object to the FileStorage.__objects attr"""
@@ -93,6 +94,7 @@ class TestFileStorage(unittest.TestCase):
                 test_dict[instance_key] = instance
                 self.assertEqual(test_dict, storage._FileStorage__objects)
         FileStorage._FileStorage__objects = save
+
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_save(self):
@@ -113,3 +115,17 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
+    def test_count(self):
+        storage = FileStorage()
+        initial_length = len(storage.all())
+        self.assertEqual(storage.count(), initial_length)
+        state_len = len(storage.all("State"))
+        self.assertEqual(storage.count("State"), state_len)
+        new_state = State()
+        new_state.save()
+        self.assertEqual(storage.count(), initial_length + 1)
+        self.assertEqual(storage.count("State"), state_len + 1)
