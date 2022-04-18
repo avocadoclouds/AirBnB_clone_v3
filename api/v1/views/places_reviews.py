@@ -22,6 +22,7 @@ def retrieve_reviews(place_id):
         reviews.append(review.to_dict())
     return jsonify(reviews)
 
+
 @app_views.route('/reviews/<review_id>', methods=['GET'])
 def retrieve_review(review_id):
     """returns information about a particular review"""
@@ -29,6 +30,7 @@ def retrieve_review(review_id):
     if review is None:
         abort(404)
     return(jsonify(review.to_dict()))
+
 
 @app_views.route('/reviews/<review_id>', methods=['DELETE'])
 def delete_review(review_id):
@@ -39,6 +41,7 @@ def delete_review(review_id):
     review.delete()
     storage.save()
     return(jsonify({}))
+
 
 @app_views.route('places/<place_id>/reviews', methods=['POST'])
 def create_review(place_id):
@@ -60,6 +63,7 @@ def create_review(place_id):
     review = Review(**kwargs)
     review.save()
     return make_response(jsonify(review.to_dict()), 201)
+
 
 @app_views.route('reviews/<review_id>', methods=['PUT'])
 def update_review(review_id):
