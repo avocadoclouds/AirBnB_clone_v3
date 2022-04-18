@@ -5,12 +5,19 @@ from api.v1.views import app_views
 from flask import Flask, render_template, jsonify
 from models import storage
 import os
+from flask_cors import CORS
+
 
 # create a variable app, instance of Flask
 app = Flask(__name__)
 
 # register the blueprint app_views to your Flask instance app
 app.register_blueprint(app_views)
+
+# A resource makes a cross-origin HTTP request
+# when it requests a resource from a different domain, or port
+# than the one the first resource itself serves.
+cors = CORS(app, resources={"/*": {"origins": "0.0.0.0"}})
 
 # flask env setup
 host = os.getenv('HBNB_API_HOST', '0.0.0.0')
