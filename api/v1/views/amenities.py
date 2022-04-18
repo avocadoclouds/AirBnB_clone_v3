@@ -22,7 +22,7 @@ def get_amenity(amenity_id):
     """Return info on an amenity of specific amenity_id"""
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
-        abort(404)
+        abort(404, 'Not found')
     return jsonify(amenity.to_dict())
 
 
@@ -31,7 +31,7 @@ def delete_amenity(amenity_id):
     """delete an amenity and returns an empty dict"""
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
-        abort(404)
+        abort(404, 'Not found')
     amenity.delete()
     storage.save()
     return (jsonify({}))
@@ -54,7 +54,7 @@ def put_amenity(amenity_id):
     """update an amenity"""
     amenity = storage.get("Amenity", amenity_id)
     if amenity is None:
-        abort(404)
+        abort(404, 'Not found')
     if not request.get_json():
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for attr, value in request.get_json().items():
