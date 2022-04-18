@@ -13,7 +13,7 @@ from models.state import State
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'])
 def retrieve_places(city_id):
-    """returns all places for a particular city"""
+    """returns all places for a particular city."""
     city = storage.get("City", city_id)
     if city is None:
         abort(404)
@@ -22,6 +22,7 @@ def retrieve_places(city_id):
         places.append(place.to_dict())
     return(jsonify(places))
 
+
 @app_views.route('/places/<place_id>', methods=['GET'])
 def retrieve_place(place_id):
     """returns information about a particular place"""
@@ -29,6 +30,7 @@ def retrieve_place(place_id):
     if place is None:
         abort(404)
     return(jsonify(place.to_dict()))
+
 
 @app_views.route('/places/<place_id>', methods=['DELETE'])
 def delete_place(place_id):
@@ -39,6 +41,7 @@ def delete_place(place_id):
     place.delete()
     storage.save()
     return(jsonify({}))
+
 
 @app_views.route('cities/<city_id>/places', methods=['POST'])
 def create_place(city_id):
@@ -60,6 +63,7 @@ def create_place(city_id):
     place = Place(**kwargs)
     place.save()
     return make_response(jsonify(place.to_dict()), 201)
+
 
 @app_views.route('places/<place_id>', methods=['PUT'])
 def update_place(place_id):
