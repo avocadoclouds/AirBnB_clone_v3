@@ -7,6 +7,8 @@ from models.amenity import Amenity
 
 
 amenity_dict = amenity.to_dict()
+
+
 @app_views.route('/amenities', methods=['GET'])
 def get_amenities():
     """Return all amenities"""
