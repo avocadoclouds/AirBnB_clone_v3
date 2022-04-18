@@ -20,7 +20,7 @@ def status():
 
 @app_views.route('/stats', methods=['GET'])
 def stats():
-    """ function  to return count of objects."""
+    """ function  to return count of objects """
     if request.method == 'GET':
         response = {}
         result = {
@@ -31,6 +31,6 @@ def stats():
             "State": "states",
             "User": "users"
         }
-        for key, value in result.items():
-            response[value] = storage.count(key)
+         for key, value in result.items():
+             response[value] = storage.count(key)
         return jsonify(response)
