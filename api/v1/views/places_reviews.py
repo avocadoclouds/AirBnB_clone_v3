@@ -75,7 +75,7 @@ def update_review(review_id):
     if not kwargs:
         return make_response(jsonify({'error': 'Not a JSON'}), 404)
     for attr, val in kwargs.items():
-        if attr not in ['id', 'user_id', 'place_id',\
+        if attr not in ['id', 'user_id', 'place_id',
                         'created_at', 'updated_at']:
             setattr(review, attr, val)
     review.save()

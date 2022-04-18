@@ -75,7 +75,8 @@ def update_place(place_id):
     if not kwargs:
         return make_response(jsonify({'error': 'Not a JSON'}), 404)
     for attr, val in kwargs.items():
-        if attr not in ['id', 'user_id', 'city_id', 'created_at', 'updated_at']:
+        if attr not in ['id', 'user_id', 'city_id',
+                        'created_at', 'updated_at']:
             setattr(place, attr, val)
     place.save()
     return jsonify(place.to_dict())
