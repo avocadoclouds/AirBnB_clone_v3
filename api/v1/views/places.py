@@ -11,7 +11,8 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'])
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
+                 strict_slashes=False)
 def retrieve_places(city_id):
     """returns all places for a particular city."""
     city = storage.get("City", city_id)
@@ -43,7 +44,8 @@ def delete_place(place_id):
     return (jsonify({}))
 
 
-@app_views.route('cities/<city_id>/places', methods=['POST'])
+@app_views.route('cities/<city_id>/places', methods=['POST'],
+                 strict_slashes=False)
 def create_place(city_id):
     """creates a new place"""
     city = storage.get("City", city_id)
