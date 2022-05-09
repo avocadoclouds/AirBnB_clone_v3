@@ -8,7 +8,7 @@ from models.state import State
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities', methods=['GET'])
+@app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 def get_amenities():
     """Return all amenities"""
     amenities = []
@@ -37,7 +37,7 @@ def delete_amenity(amenity_id):
     return (jsonify({}))
 
 
-@app_views.route('/amenities', methods=['POST'])
+@app_views.route('/amenities', methods=['POST'], strict_slashes=False)
 def create_amenity():
     """creates an amenity"""
     if not request.get_json():
