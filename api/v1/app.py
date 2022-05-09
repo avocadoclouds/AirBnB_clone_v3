@@ -2,7 +2,7 @@
 """Flask App"""
 
 from api.v1.views import app_views
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, make_response
 from models import storage
 import os
 from flask_cors import CORS
@@ -30,6 +30,12 @@ def teardown_db(exception):
     on current sqlalchemy sessions
     """
     storage.close()
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    """renders a custom error message for non-existent resources"""
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == "__main__":
