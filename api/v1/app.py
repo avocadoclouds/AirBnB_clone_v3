@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 # register the blueprint app_views to your Flask instance app
 app.register_blueprint(app_views)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 # A resource makes a cross-origin HTTP request
 # when it requests a resource from a different domain, or port
@@ -40,4 +41,4 @@ def page_not_found(error):
 
 if __name__ == "__main__":
     """Run Flask"""
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, threaded=True, debug=True)
