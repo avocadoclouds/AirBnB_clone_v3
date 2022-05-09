@@ -11,7 +11,8 @@ from models.user import User
 from models.place import Place
 
 
-@app_views.route('/places/<place_id>/reviews', methods=['GET'])
+@app_views.route('/places/<place_id>/reviews', methods=['GET'],
+                 strict_slashes=False)
 def retrieve_reviews(place_id):
     """returns all the reviews for a particular place"""
     place = storage.get("Place", place_id)
@@ -43,7 +44,8 @@ def delete_review(review_id):
     return(jsonify({}))
 
 
-@app_views.route('places/<place_id>/reviews', methods=['POST'])
+@app_views.route('places/<place_id>/reviews', methods=['POST'],
+                 strict_slashes=False)
 def create_review(place_id):
     """creates a new review for a particular place"""
     place = storage.get("Place", place_id)
@@ -51,14 +53,14 @@ def create_review(place_id):
         abort(404)
     kwargs = request.get_json()
     if not kwargs:
-        return make_response(jsonify({'error': 'Not a JSON'}), 404)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'user_id' not in kwargs.keys():
-        return make_response(jsonify({'error': 'Missing user_id'}), 404)
+        return make_response(jsonify({'error': 'Missing user_id'}), 400)
     user = storage.get("User", kwargs['user_id'])
     if not user:
         abort(404)
     if 'text' not in kwargs.keys():
-        return make_response(jsonify({'error': 'Missing text'}), 404)
+        return make_response(jsonify({'error': 'Missing text'}), 400)
     kwargs['place_id'] = place_id
     review = Review(**kwargs)
     review.save()
@@ -73,7 +75,7 @@ def update_review(review_id):
         abort(404)
     kwargs = request.get_json()
     if not kwargs:
-        return make_response(jsonify({'error': 'Not a JSON'}), 404)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for attr, val in kwargs.items():
         if attr not in ['id', 'user_id', 'place_id',
                         'created_at', 'updated_at']:
