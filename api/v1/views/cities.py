@@ -7,7 +7,8 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'])
+@app_views.route('/states/<state_id>/cities', methods=['GET'],
+                 strict_slashes=False)
 def get_cities(state_id):
     """Return information for all cities in a specified state"""
     state = storage.get("State", state_id)
@@ -39,7 +40,8 @@ def delete_city(city_id):
     return (jsonify({}))
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'])
+@app_views.route('/states/<state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def create_city(state_id):
     """create new city"""
     state = storage.get("State", state_id)
