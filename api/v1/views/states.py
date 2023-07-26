@@ -7,7 +7,7 @@ from models import storage
 from models.state import State
 
 
-@app_views.route('/states', methods=['GET'])
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
 def retrieve_states():
     """Returns all state objects"""
     states = []
@@ -37,7 +37,7 @@ def delete_state(state_id):
     return (jsonify({}))
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """create new state"""
     if not request.get_json():

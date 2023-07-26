@@ -10,7 +10,7 @@ from models.amenity import Amenity
 from models.user import User
 
 
-@app_views.route('/users', methods=['GET'])
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_users():
     """Return information for all users"""
     users = []
@@ -39,22 +39,23 @@ def delete_user(user_id):
     return (jsonify({}))
 
 
-@app_views.route('/users', methods=['POST'])
+@app_views.route('/users', methods=['POST'], strict_slashes=False)
 def create_user():
     """create a new user"""
-    if not request.get_json():
+    req = request.get_json()
+    if not req:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
-    if 'email' not in request.get_json():
+    if 'email' not in req:
         return make_response(jsonify({'error': 'Missing email'}), 400)
-    if 'password' not in request.get_json():
+    if 'password' not in req:
         return make_response(jsonify({'error': 'Missing password'}), 400)
-    user = User(**request.get_json())
+    user = User(**req)
     user.save()
     return make_response(jsonify(user.to_dict()), 201)
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'])
-def update_user(self_id):
+def update_user(user_id):
     """update a user"""
     user = storage.get("User", user_id)
     if user is None:

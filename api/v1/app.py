@@ -2,7 +2,7 @@
 """Flask App"""
 
 from api.v1.views import app_views
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, make_response
 from models import storage
 import os
 from flask_cors import CORS
@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 # register the blueprint app_views to your Flask instance app
 app.register_blueprint(app_views)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 # A resource makes a cross-origin HTTP request
 # when it requests a resource from a different domain, or port
@@ -32,6 +33,12 @@ def teardown_db(exception):
     storage.close()
 
 
+@app.errorhandler(404)
+def page_not_found(error):
+    """renders a custom error message for non-existent resources"""
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
 if __name__ == "__main__":
     """Run Flask"""
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, threaded=True, debug=True)

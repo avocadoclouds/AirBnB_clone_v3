@@ -11,7 +11,8 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/cities/<city_id>/places', methods=['GET'])
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
+                 strict_slashes=False)
 def retrieve_places(city_id):
     """returns all places for a particular city."""
     city = storage.get("City", city_id)
@@ -43,7 +44,8 @@ def delete_place(place_id):
     return (jsonify({}))
 
 
-@app_views.route('cities/<city_id>/places', methods=['POST'])
+@app_views.route('cities/<city_id>/places', methods=['POST'],
+                 strict_slashes=False)
 def create_place(city_id):
     """creates a new place"""
     city = storage.get("City", city_id)
@@ -51,14 +53,14 @@ def create_place(city_id):
         abort(404, 'Not found')
     kwargs = request.get_json()
     if not kwargs:
-        return make_response(jsonify({'error': 'Not a JSON'}), 404)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     if 'user_id' not in kwargs.keys():
-        return make_response(jsonify({'error': 'Missing user_id'}), 404)
+        return make_response(jsonify({'error': 'Missing user_id'}), 400)
     user = storage.get("User", kwargs['user_id'])
     if not user:
         abort(404, 'Not found')
     if 'name' not in kwargs.keys():
-        return make_response(jsonify({'error': 'Missing name'}), 404)
+        return make_response(jsonify({'error': 'Missing name'}), 400)
     kwargs['city_id'] = city_id
     place = Place(**kwargs)
     place.save()
@@ -73,7 +75,7 @@ def update_place(place_id):
         abort(404, 'Not found')
     kwargs = request.get_json()
     if not kwargs:
-        return make_response(jsonify({'error': 'Not a JSON'}), 404)
+        return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for attr, val in kwargs.items():
         if attr not in ['id', 'user_id', 'city_id',
                         'created_at', 'updated_at']:
